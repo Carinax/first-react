@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import Radium from 'radium';
 import logo from './logo.svg';
 import './App.css';
 import Person from './Person/Person';
+
 
 
 const App = props => {
@@ -79,20 +81,26 @@ const App = props => {
       // const persons = personState.persons.slice();
       const persons = [...personState.persons]
       const doesShow = personState.showPersons;
-      persons.splice(personIndex, 1);
+      persons.splice(personIndex, 1);//从personIndex开始，删除一个
       setPersonsState({
         persons: persons,
+        //为什么这边都要复制一份再给呢。。。
         otherstate:personState.otherstate,
         showPersons : doesShow
       });
     }
 
     const style = {
-      backgroundColor: 'white',
+      backgroundColor: 'green',
+      color: 'white',
       font:'inherit',
       border:'1px solid blue',
       padding: '8px',
       cursor: 'pointer',
+      ':hover': {
+        backgroundColor:'lightgreen',
+        color:'black',
+      }
     };
 
     let personn = null;
@@ -110,12 +118,24 @@ const App = props => {
           })}
       </div>
       );
+      style.backgroundColor='red';
+      style[': hover']={
+        backgroundColor : 'lightred',
+        color : 'yellow',
+      }
+    }  
+    let classes = [];
+    if(personState.persons.length <= 2){
+      classes.push('red');
+    }
+    if(personState.persons.length <= 1){
+      classes.push('bold');
     }
 
   return(
     <div className = "App">
       <h1>HI, I AM REACT</h1>
-      <p>This is really working!</p>
+      <p className = {classes.join(' ')}>This is really working!</p>
       <button 
       style={style}
       onClick={togglePersonsHandler}> Switch Name </button> 
@@ -159,4 +179,4 @@ const App = props => {
   // render(){
 // }
 
-export default App;
+export default Radium(App);
